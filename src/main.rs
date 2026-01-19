@@ -1,3 +1,4 @@
+mod config;
 mod logger;
 
 use axum::{
@@ -12,9 +13,11 @@ async fn main() {
 
     let router = Router::new().route("/", routing::get(index));
 
-    let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let port = config::get().server.port();
 
-    tracing::info!("Listening on http://localhost:3000");
+    let listener = TcpListener::bind(format!("0.0.0.0:{port}")).await.unwrap();
+
+    tracing::info!("Listening on http://localhost:{port}");
 
     axum::serve(listener, router).await.unwrap();
 }
