@@ -6,3 +6,5 @@ edition = "2024"
 [dependencies]
 axum = { version="0.8.8", features=["macros"] }
 tokio = { version = "1.49.0", features = ["full"] }
+tracing = { version = "0.1.44" , features = ["async-await"] }
+tracing-subscriber = { version = "0.3.22", features = ["env-filter", "chrono"] }
