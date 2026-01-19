@@ -29,8 +29,25 @@ tracing-subscriber = "0.3.22"
 ```toml
 ### 读取配置
 config = { version = "0.15.19", features = ["yaml"] }
-### 序列化🍚序列化
+### 序列化反序列化
 serde = { version = "1.0.228", features = ["derive"] }
 ### 错误处理
 anyhow = { version = "1.0.100" }
+```
+
+## 4.集成数据库
+
+在cargo.tol中添加以下依赖：
+
+```toml
+### orm框架
+sea-orm = { version = "1.1.19", features = [
+    "with-chrono",
+    "debug-print",
+    "sqlx-postgres",
+    "with-rust_decimal",
+    "runtime-tokio",
+] }
+### 计算cpu数量，用于添加链接池数量
+num_cpus = "1.17.0"
 ```
