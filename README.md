@@ -50,4 +50,15 @@ sea-orm = { version = "1.1.19", features = [
 ] }
 ### 计算cpu数量，用于添加链接池数量
 num_cpus = "1.17.0"
+### 刷新环境变量
+dotenv = "0.15.0"
+```
+
+安装sea-orm的cli工具，用于数据库结构生成实体类
+
+```bash
+## 安装工具
+cargo install sea-orm-cli@1.1.19
+## 执行代码生成
+sea-orm-cli generate entity -o 目录
 ```
