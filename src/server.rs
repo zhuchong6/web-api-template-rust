@@ -21,7 +21,7 @@ impl Server {
         // 监听端口
         let port = self.config.port();
         let listener = TcpListener::bind(format!("0.0.0.0:{port}")).await?;
-        tracing::info!("Listening on {}", listener.local_addr()?);
+        tracing::info!("Listening on http://{}", listener.local_addr()?);
 
         // 启动服务
         axum::serve(

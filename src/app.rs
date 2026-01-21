@@ -21,7 +21,7 @@ pub async fn run(router: Router<AppState>) -> anyhow::Result<()> {
 
     let db = database::init().await?;
     let state = AppState::new(db);
-    
     let server = server::Server::new(config::get().server());
+    
     server.start(state, router).await
 }
