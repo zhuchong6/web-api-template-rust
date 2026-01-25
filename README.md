@@ -62,3 +62,12 @@ cargo install sea-orm-cli@1.1.19
 ## 执行代码生成
 sea-orm-cli generate entity -o 目录
 ```
+
+## 5.集成中间件
+
+```toml
+## 添加trace中间件
+tower-http = {version = "0.6.8", features = ["trace"]}
+## 生成一个全局唯一id
+xid="1.1.1"
+```

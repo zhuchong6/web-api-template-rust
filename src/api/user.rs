@@ -13,9 +13,11 @@ pub fn create_router() -> Router<AppState> {
 }
 
 #[debug_handler]
+#[tracing::instrument(name = "get_all_users", skip_all, fields(query_use= "all"))]
 async fn get_all_users(
     State(AppState { db }): State<AppState>,
 ) -> ApiResult<ApiResponse<Vec<sys_user::Model>>> {
+    tracing::info!("get all users");
     let users = SysUser::find()
         .filter(
             Condition::all()
