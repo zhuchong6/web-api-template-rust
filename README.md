@@ -66,8 +66,16 @@ sea-orm-cli generate entity -o 目录
 ## 5.集成中间件
 
 ```toml
-## 添加trace中间件
-tower-http = {version = "0.6.8", features = ["trace"]}
-## 生成一个全局唯一id
-xid="1.1.1"
+### 集成中间件
+tower-http = { version = "0.6.8", features = [
+    "trace",
+    "timeout",
+    "limit",
+    "cors",
+    "normalize-path",
+] }
+### 生成全局唯一id，简短的
+xid = "1.1.1"
+### 字节转换工具
+bytesize = "2.3.1"
 ```

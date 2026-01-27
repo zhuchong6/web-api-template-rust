@@ -1,9 +1,19 @@
-use std::net::SocketAddr;
+use std::{net::SocketAddr, time::Duration};
 
 use anyhow::Ok;
-use axum::{Router, extract::Request, http::method};
+use axum::{
+    Router,
+    extract::{DefaultBodyLimit, Request},
+    http::{StatusCode, method},
+};
+use bytesize::ByteSize;
 use tokio::net::TcpListener;
-use tower_http::trace::{DefaultOnResponse, TraceLayer};
+use tower_http::{
+    cors::{self, CorsLayer},
+    normalize_path::NormalizePathLayer,
+    timeout::TimeoutLayer,
+    trace::{DefaultOnResponse, TraceLayer},
+};
 
 use crate::{app::AppState, config::ServerConfig, latency::LatencyOnResponse};
 
@@ -35,6 +45,20 @@ impl Server {
     }
 
     fn build_router(&self, state: AppState, router: Router<AppState>) -> Router {
+        let time_out_layer =
+            TimeoutLayer::with_status_code(StatusCode::REQUEST_TIMEOUT, Duration::from_secs(5));
+
+        let body_size_layer = DefaultBodyLimit::max(ByteSize::mb(10).as_u64() as usize);
+
+        let cors_layer = CorsLayer::new()
+            .allow_origin(cors::Any)
+            .allow_methods(cors::Any)
+            .allow_headers(cors::Any)
+            .allow_credentials(false)
+            .max_age(Duration::from_secs(3600 * 12));
+
+        let normal_layer = NormalizePathLayer::trim_trailing_slash();
+
         let tracing_layer = TraceLayer::new_for_http()
             .make_span_with(|req: &Request| {
                 let method = req.method();
@@ -48,7 +72,11 @@ impl Server {
 
         Router::new()
             .merge(router)
+            .layer(time_out_layer)
+            .layer(body_size_layer)
             .layer(tracing_layer)
+            .layer(cors_layer)
+            .layer(normal_layer)
             .with_state(state)
     }
 }
