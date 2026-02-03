@@ -1,5 +1,6 @@
 mod api;
 mod app;
+mod common;
 mod config;
 mod database;
 mod entity;
@@ -8,6 +9,7 @@ mod latency;
 mod logger;
 mod response;
 mod server;
+mod serde;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

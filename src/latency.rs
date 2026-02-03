@@ -1,6 +1,5 @@
 use std::{fmt::Display, time::Duration};
 
-use axum::http::status;
 use tower_http::trace::OnResponse;
 
 #[derive(Debug, Clone, Copy)]

@@ -4,7 +4,7 @@ use anyhow::Ok;
 use axum::{
     Router,
     extract::{DefaultBodyLimit, Request},
-    http::{StatusCode, method},
+    http::StatusCode,
 };
 use bytesize::ByteSize;
 use tokio::net::TcpListener;
@@ -12,7 +12,7 @@ use tower_http::{
     cors::{self, CorsLayer},
     normalize_path::NormalizePathLayer,
     timeout::TimeoutLayer,
-    trace::{DefaultOnResponse, TraceLayer},
+    trace::TraceLayer,
 };
 
 use crate::{app::AppState, config::ServerConfig, latency::LatencyOnResponse};
